@@ -27,11 +27,10 @@ type Product = {
   title: string;
   description?: string;
   tipoProdotto?: string;
-  sizes: string[];
   colors: Array<{
     name: string;
-    hexColorCode?: string;
     images?: Array<{ asset: { url: string } }>;
+    sizes: string[];
   }>;
 };
 
@@ -131,8 +130,8 @@ export default function ProductView({ product }: { product: Product }) {
               {product.colors.map((c, idx) => {
                 const isSelected = idx === selectedColorIndex;
                 const swatchBg =
-                  c.hexColorCode && /^#([0-9A-F]{3}){1,2}$/i.test(c.hexColorCode)
-                    ? c.hexColorCode
+                  c.name && /^#([0-9A-F]{3}){1,2}$/i.test(c.name)
+                    ? c.name
                     : 'transparent';
                 return (
                   <button
@@ -168,24 +167,25 @@ export default function ProductView({ product }: { product: Product }) {
             <p className="mt-2 text-xs text-muted-foreground">
               Selezionato: {product.colors[selectedColorIndex]?.name}
             </p>
+            
+            {/* Taglie */}
+            <div className="mt-6">
+              <label className="mb-2 block text-sm font-medium">Taglie</label>
+              <Select value={selectedSize} onValueChange={setSelectedSize}>
+                <SelectTrigger className="w-56">
+                  <SelectValue placeholder="Scegli una taglia" />
+                </SelectTrigger>
+                <SelectContent>
+                  {product.colors[selectedColorIndex]?.sizes.map((taglia) => (
+                    <SelectItem key={taglia} value={taglia}>
+                      {taglia}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
           </div>
 
-          {/* Taglie */}
-          <div className="mt-6">
-            <label className="mb-2 block text-sm font-medium">Taglie</label>
-            <Select value={selectedSize} onValueChange={setSelectedSize}>
-              <SelectTrigger className="w-56">
-                <SelectValue placeholder="Scegli una taglia" />
-              </SelectTrigger>
-              <SelectContent>
-                {product.sizes.map((taglia) => (
-                  <SelectItem key={taglia} value={taglia}>
-                    {taglia}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
 
           {/* CTA (se ti serve) */}
           {/* <Button className="mt-8 w-56" disabled={!selectedSize}>
