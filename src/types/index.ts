@@ -3,10 +3,9 @@ export type Product = {
     title: string;
     description?: string;
     tipoProdotto: string;
-    sizes: string[];
     colors: {
       name: string;
-      hexColorCode?: string;
+      sizes: string[];
       images: { asset: { url: string } }[];
     }[];
   };

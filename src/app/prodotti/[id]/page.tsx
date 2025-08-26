@@ -7,10 +7,9 @@ const PRODUCT_QUERY = `*[_type == 'product' && _id == $id][0]{
   title,
   description,
   tipoProdotto,
-  sizes,
   colors[]{
     name,
-    hexColorCode,
+    sizes,
     images[]{ asset->{url} }
   }
 }`;
